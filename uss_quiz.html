@@ -10,18 +10,6 @@
       margin: 30px auto;
       background: #f9f9f9;
       padding: 20px;
-      border-radius: 12px;<!DOCTYPE html>
-<html lang="ml">
-<head>
-  <meta charset="UTF-8">
-  <title>USS Malayalam Quiz</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 700px;
-      margin: 30px auto;
-      background: #f9f9f9;
-      padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 12px rgba(0,0,0,0.1);
     }
@@ -46,45 +34,22 @@
       font-weight: bold;
       font-size: 18px;
       margin-top: 20px;
-
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #1e90ff;
-    }
-    .question {
-      margin-bottom: 20px;
-    }
-    button {
-      background: #1e90ff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 10px;
-    }
-    #result {
-      font-weight: bold;
-      font-size: 18px;
-      margin-top: 20px;
       text-align: center;
     }
 
-    /* Popup styles */
+    /* Overlay & Popup */
     .overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5); /* dark background */
+      background: rgba(0, 0, 0, 0.75); /* Dark tint */
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 999;
+      animation: fadeIn 0.3s ease;
     }
 
     .popup {
@@ -92,12 +57,23 @@
       padding: 20px;
       border-radius: 10px;
       text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
       z-index: 1000;
+      animation: scaleIn 0.3s ease;
     }
 
     body.noscroll {
       overflow: hidden;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
@@ -156,10 +132,8 @@
 
       document.getElementById("result").innerHTML = `✅ നിങ്ങൾ നേടിയത് ${score}/5 ആണ്`;
 
-      // Disable scroll
       document.body.classList.add('noscroll');
 
-      // Create overlay and popup
       const overlay = document.createElement('div');
       overlay.className = 'overlay';
       overlay.id = 'overlay';
@@ -169,7 +143,6 @@
       popup.innerHTML = `
         <h3>✅ Quiz Completed!</h3>
         <p>നിങ്ങളുടെ സ്കോർ: ${score}/5</p>
-        <p>എന്ത് ചെയ്യണമെന്ന് തിരഞ്ഞെടുക്കൂ:</p>
         <button onclick="location.reload()">🔁 വീണ്ടും ശ്രമിക്കുക</button>
         <button onclick="window.location.href='quiz_hub.html'">🧭 Quiz Hub ലേക്ക് പോവുക</button>
       `;
