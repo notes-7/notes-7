@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Practice Quiz Hub | StudyNest 7</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #1e90ff;
+      text-align: center;
+    }
+    .quiz-button {
+      display: block;
+      width: 100%;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #1e90ff;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .quiz-button:hover {
+      background-color: #0f78d4;
+    }
+    .info {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .stars {
+      color: gold;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Practice Quiz Hub</h1>
+
+  <div class="info">
+    <p><strong>Public Data:</strong></p>
+    <p>🧠 Total quiz attempts: <span id="attempt-count">13</span></p>
+    <p>⭐ Average difficulty rating: <span class="stars">★★★★☆</span> (4.2/5)</p>
+  </div>
+
+  <a class="quiz-button" href="uss_quiz.html">🇲🇱 Malayalam USS Quiz</a>
+  <a class="quiz-button" href="#">🔢 Maths Quiz (Coming Soon)</a>
+  <a class="quiz-button" href="#">🧪 Science Quiz (Coming Soon)</a>
+
+  <div class="info">
+    <p><strong>📋 Rate this Quiz</strong></p>
+    <form onsubmit="submitRating(event)">
+      <label>How hard was it?</label><br><br>
+      <select id="rating">
+        <option value="5">⭐⭐⭐⭐⭐ - Very Hard</option>
+        <option value="4">⭐⭐⭐⭐ - Hard</option>
+        <option value="3">⭐⭐⭐ - Moderate</option>
+        <option value="2">⭐⭐ - Easy</option>
+        <option value="1">⭐ - Very Easy</option>
+      </select>
+      <br><br>
+      <button type="submit">Submit Rating</button>
+    </form>
+    <p id="thanks"></p>
+  </div>
+
+  <script>
+    function submitRating(e) {
+      e.preventDefault();
+      const rating = document.getElementById('rating').value;
+      document.getElementById('thanks').innerText = "✅ Thank you! Your rating has been recorded.";
+    }
+  </script>
+</body>
+</html>
+
