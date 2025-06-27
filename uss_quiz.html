@@ -77,21 +77,33 @@
 
     function renderQuestion(index) {
       const q = questions[index];
+
+      // Insert question + options + next button
       container.innerHTML = `
         <div class="question-box active">
           <p><b>Q${index + 1}.</b> ${q.q}</p>
           ${q.options.map((opt, i) => `
-            <button class="answer-btn" onclick="selectAnswer(${i})">${opt}</button><br>`).join("")}
+            <button class="answer-btn" data-index="${i}">${opt}</button><br>`).join("")}
           <div id="feedback" class="feedback"></div>
-          <button id="nextBtn" style="display:none" onclick="nextQuestion()">➡️ Next</button>
+          <button id="nextBtn" style="display:none">➡️ Next</button>
         </div>
       `;
+
+      // Add event listeners for answer buttons
+      document.querySelectorAll(".answer-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const selected = parseInt(btn.getAttribute("data-index"));
+          checkAnswer(selected);
+        });
+      });
+
+      // Add event listener for Next button
+      document.getElementById("nextBtn").addEventListener("click", nextQuestion);
     }
 
-    function selectAnswer(selected) {
+    function checkAnswer(selected) {
       const correct = questions[current].answer;
       const feedback = document.getElementById("feedback");
-      const nextBtn = document.getElementById("nextBtn");
 
       if (selected === correct) {
         feedback.innerHTML = "✅ ശരിയാണ്!";
@@ -102,10 +114,11 @@
         feedback.className = "feedback wrong";
       }
 
-      // ✅ Only disable answer buttons, not the "Next" button
-      Array.from(container.querySelectorAll(".answer-btn")).forEach(btn => btn.disabled = true);
+      // Disable answer buttons
+      document.querySelectorAll(".answer-btn").forEach(btn => btn.disabled = true);
 
-      nextBtn.style.display = "inline-block";
+      // Show "Next" button
+      document.getElementById("nextBtn").style.display = "inline-block";
     }
 
     function nextQuestion() {
@@ -119,11 +132,12 @@
 
     function showScore() {
       container.style.display = "none";
-      document.getElementById("final-score").style.display = "block";
-      document.getElementById("final-score").innerHTML = `✅ നിങ്ങൾ നേടിയത് <b>${score}/${questions.length}</b> ആണ്!`;
+      const final = document.getElementById("final-score");
+      final.style.display = "block";
+      final.innerHTML = `✅ നിങ്ങൾ നേടിയത് <b>${score}/${questions.length}</b> ആണ്!`;
     }
 
-    // Start quiz
+    // Start the quiz
     renderQuestion(0);
   </script>
 
