@@ -2,151 +2,129 @@
 <html lang="ml">
 <head>
   <meta charset="UTF-8">
-  <title>USS Malayalam Quiz</title>
+  <title>Malayalam Quiz – One by One</title>
   <style>
     body {
       font-family: sans-serif;
-      max-width: 700px;
-      margin: 30px auto;
-      background: #f9f9f9;
+      max-width: 600px;
+      margin: 40px auto;
+      background: #f0f8ff;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     h1 {
       text-align: center;
       color: #1e90ff;
     }
-    .question {
-      margin-bottom: 20px;
+    .question-box {
+      display: none;
+    }
+    .question-box.active {
+      display: block;
+    }
+    .feedback {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .correct {
+      color: green;
+    }
+    .wrong {
+      color: red;
     }
     button {
+      margin-top: 15px;
       background: #1e90ff;
       color: white;
+      padding: 10px 16px;
       border: none;
-      padding: 10px 20px;
-      font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
-      margin: 10px;
-    }
-    #result {
-      font-weight: bold;
-      font-size: 18px;
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.75);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .popup {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-      z-index: 1000;
-      animation: scaleIn 0.3s ease;
-    }
-
-    body.noscroll {
-      overflow: hidden;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <h1>USS Malayalam Quiz</h1>
 
-  <div class="question">
-    <p>1. ‘മകത്തത്തെ പാട്ട്’ എഴുതിയത് ആരാണ്?</p>
-    <label><input type="radio" name="q1" value="a"> കുമാരനാശാൻ</label><br>
-    <label><input type="radio" name="q1" value="b"> ബശീർ</label><br>
-    <label><input type="radio" name="q1" value="c"> ഒ. എന്‍. വി. കുറുപ്പ്</label>
-  </div>
+  <h1>Malayalam Learning Quiz</h1>
 
-  <div class="question">
-    <p>2. ‘അനുപ്രാസം’ എന്നതെന്താണ്?</p>
-    <label><input type="radio" name="q2" value="a"> ഓർമ്മശക്തി</label><br>
-    <label><input type="radio" name="q2" value="b"> ഒരേ ശബ്ദം ആവർത്തിക്കുന്നത്</label><br>
-    <label><input type="radio" name="q2" value="c"> കവി</label>
-  </div>
-
-  <div class="question">
-    <p>3. ‘പ്രശാന്തം’ എന്ന പദത്തിന് വിരുദ്ധപദം ഏത്?</p>
-    <label><input type="radio" name="q3" value="a"> അമൃതം</label><br>
-    <label><input type="radio" name="q3" value="b"> അശാന്തം</label><br>
-    <label><input type="radio" name="q3" value="c"> വിനയം</label>
-  </div>
-
-  <div class="question">
-    <p>4. ‘നിന്റെ കണ്ണുകൾ താരകകൾ പോലെ ആണ്’ – ഈ വാക്യത്തിൽ എന്ത് ശൈലി ഉപയോഗിച്ചിട്ടുണ്ട്?</p>
-    <label><input type="radio" name="q4" value="a"> ഉപമ</label><br>
-    <label><input type="radio" name="q4" value="b"> പര്യായം</label><br>
-    <label><input type="radio" name="q4" value="c"> വിവക്ഷ</label>
-  </div>
-
-  <div class="question">
-    <p>5. താഴെ കൊടുത്തവയിൽ ‘കവിത’യെ സൂചിപ്പിക്കുന്ന പദം ഏതാണ്?</p>
-    <label><input type="radio" name="q5" value="a"> ഗദ്യരൂപം</label><br>
-    <label><input type="radio" name="q5" value="b"> കാവ്യം</label><br>
-    <label><input type="radio" name="q5" value="c"> വ്യാകരണം</label>
-  </div>
-
-  <button onclick="checkAnswers()">Submit</button>
-
-  <div id="result"></div>
+  <div id="quiz-container"></div>
+  <div id="final-score" style="display:none; text-align:center; font-size:18px; margin-top:20px;"></div>
 
   <script>
-    function checkAnswers() {
-      if (document.getElementById("overlay")) return;
+    const questions = [
+      {
+        q: "‘മകത്തത്തെ പാട്ട്’ എഴുതിയത് ആരാണ്?",
+        options: ["കുമാരനാശാൻ", "ബശീർ", "ഒ. എന്‍. വി. കുറുപ്പ്"],
+        answer: 0
+      },
+      {
+        q: "‘അനുപ്രാസം’ എന്നതെന്താണ്?",
+        options: ["ഓർമ്മശക്തി", "ഒരേ ശബ്ദം ആവർത്തിക്കുന്നത്", "കവി"],
+        answer: 1
+      },
+      {
+        q: "‘പ്രശാന്തം’ എന്നതിന്റെ വിരുദ്ധം?",
+        options: ["അമൃതം", "അശാന്തം", "വിനയം"],
+        answer: 1
+      }
+    ];
 
-      let score = 0;
-      if (document.querySelector('input[name="q1"]:checked')?.value === "a") score++;
-      if (document.querySelector('input[name="q2"]:checked')?.value === "b") score++;
-      if (document.querySelector('input[name="q3"]:checked')?.value === "b") score++;
-      if (document.querySelector('input[name="q4"]:checked')?.value === "a") score++;
-      if (document.querySelector('input[name="q5"]:checked')?.value === "b") score++;
+    let current = 0;
+    let score = 0;
 
-      document.getElementById("result").innerHTML = `✅ നിങ്ങൾ നേടിയത് ${score}/5 ആണ്`;
+    const container = document.getElementById("quiz-container");
 
-      document.body.classList.add('noscroll');
-
-      const overlay = document.createElement('div');
-      overlay.className = 'overlay';
-      overlay.id = 'overlay';
-
-      const popup = document.createElement('div');
-      popup.className = 'popup';
-      popup.innerHTML = `
-        <h3>✅ Quiz Completed!</h3>
-        <p>നിങ്ങളുടെ സ്കോർ: ${score}/5</p>
-        <button onclick="location.reload()">🔁 വീണ്ടും ശ്രമിക്കുക</button>
-        <button onclick="window.location.href='quiz_hub.html'">🧭 Quiz Hub ലേക്ക് പോവുക</button>
+    function renderQuestion(index) {
+      const q = questions[index];
+      container.innerHTML = `
+        <div class="question-box active">
+          <p><b>Q${index + 1}.</b> ${q.q}</p>
+          ${q.options.map((opt, i) => `
+            <button onclick="selectAnswer(${i})">${opt}</button><br>`).join("")}
+          <div id="feedback" class="feedback"></div>
+          <button id="nextBtn" style="display:none" onclick="nextQuestion()">➡️ Next</button>
+        </div>
       `;
-
-      overlay.appendChild(popup);
-      document.body.appendChild(overlay);
     }
+
+    function selectAnswer(selected) {
+      const correct = questions[current].answer;
+      const feedback = document.getElementById("feedback");
+      const nextBtn = document.getElementById("nextBtn");
+
+      if (selected === correct) {
+        feedback.innerHTML = "✅ ശരിയാണ്!";
+        feedback.className = "feedback correct";
+        score++;
+      } else {
+        feedback.innerHTML = `❌ തെറ്റാണ്. ശരിയുള്ള ഉത്തരം: ${questions[current].options[correct]}`;
+        feedback.className = "feedback wrong";
+      }
+
+      // Disable all buttons after selection
+      Array.from(container.querySelectorAll("button")).forEach(btn => btn.disabled = true);
+      nextBtn.style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < questions.length) {
+        renderQuestion(current);
+      } else {
+        showScore();
+      }
+    }
+
+    function showScore() {
+      container.style.display = "none";
+      document.getElementById("final-score").style.display = "block";
+      document.getElementById("final-score").innerHTML = `✅ നിങ്ങൾ നേടിയത് <b>${score}/${questions.length}</b> ആണ്!`;
+    }
+
+    // Start quiz
+    renderQuestion(0);
   </script>
+
 </body>
 </html>
