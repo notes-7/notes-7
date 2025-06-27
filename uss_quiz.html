@@ -12,6 +12,7 @@
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
     }
     h1 {
       text-align: center;
@@ -36,6 +37,38 @@
       border-radius: 6px;
       cursor: pointer;
     }
+
+    /* Popup styling */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 999;
+    }
+
+    #popup {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    #popup h3 {
+      margin-top: 0;
+      color: #28a745;
+    }
+
+    #popup button {
+      margin: 10px 8px;
+    }
   </style>
 </head>
 <body>
@@ -43,7 +76,16 @@
   <h1>Malayalam Learning Quiz</h1>
 
   <div id="quiz-container"></div>
-  <div id="final-score" style="display:none; text-align:center; font-size:18px; margin-top:20px;"></div>
+
+  <!-- Popup and overlay -->
+  <div id="overlay">
+    <div id="popup">
+      <h3>✅ Quiz Completed!</h3>
+      <p id="popup-score"></p>
+      <button onclick="location.reload()">🔁 Retry Quiz</button>
+      <button onclick="location.href='quiz_hub.html'">🧭 Go to Quiz Hub</button>
+    </div>
+  </div>
 
   <script>
     const questions = [
@@ -101,7 +143,6 @@
 
     let current = 0;
     let score = 0;
-
     const container = document.getElementById("quiz-container");
 
     function renderQuestion(index) {
@@ -132,11 +173,11 @@
       const correctText = questions[current].options[correct];
 
       if (selected === correct) {
-        feedback.innerHTML = `✅ ശരിയാണ്! <br>✔️ ശരിയായ ഉത്തരം: <b>${correctText}</b>`;
+        feedback.innerHTML = `✅ ശരിയാണ്!<br>✔️ ശരിയായ ഉത്തരം: <b>${correctText}</b>`;
         feedback.className = "feedback correct";
         score++;
       } else {
-        feedback.innerHTML = `❌ തെറ്റാണ്. <br>✔️ ശരിയായ ഉത്തരം: <b>${correctText}</b>`;
+        feedback.innerHTML = `❌ തെറ്റാണ്.<br>✔️ ശരിയായ ഉത്തരം: <b>${correctText}</b>`;
         feedback.className = "feedback wrong";
       }
 
@@ -149,18 +190,15 @@
       if (current < questions.length) {
         renderQuestion(current);
       } else {
-        showScore();
+        showPopup();
       }
     }
 
-    function showScore() {
-      container.style.display = "none";
-      const final = document.getElementById("final-score");
-      final.style.display = "block";
-      final.innerHTML = `✅ നിങ്ങൾ നേടിയത് <b>${score}/${questions.length}</b> ആണ്! 👏`;
+    function showPopup() {
+      document.getElementById("popup-score").innerHTML = `നിങ്ങളുടെ സ്കോർ: <b>${score}/${questions.length}</b>`;
+      document.getElementById("overlay").style.display = "block";
     }
 
-    // Start the quiz
     renderQuestion(0);
   </script>
 
