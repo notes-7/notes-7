@@ -17,12 +17,6 @@
       text-align: center;
       color: #1e90ff;
     }
-    .question-box {
-      display: none;
-    }
-    .question-box.active {
-      display: block;
-    }
     .feedback {
       font-weight: bold;
       margin-top: 10px;
@@ -67,6 +61,41 @@
         q: "‘പ്രശാന്തം’ എന്നതിന്റെ വിരുദ്ധം?",
         options: ["അമൃതം", "അശാന്തം", "വിനയം"],
         answer: 1
+      },
+      {
+        q: "‘കാക്ക’ എന്ന പദത്തിന് മലയാളത്തിൽ എന്താണ് അർത്ഥം?",
+        options: ["മൂങ്ങ", "കുരുവി", "പക്ഷി"],
+        answer: 2
+      },
+      {
+        q: "‘സാഗരം’ എന്നതിന് ഇംഗ്ലീഷ് പദം ഏതാണ്?",
+        options: ["Sky", "Ocean", "Mountain"],
+        answer: 1
+      },
+      {
+        q: "‘പുസ്തകം’ എന്തിനെയാണ് സൂചിപ്പിക്കുന്നത്?",
+        options: ["വണ്ടി", "വായനസാധനം", "ഉപ്പുമാവ്"],
+        answer: 1
+      },
+      {
+        q: "അധ്യാപകൻ എന്ന പദത്തിന് ഒപ്പം ഉപയോഗിക്കാൻ ഏറ്റവും അനുയോജ്യമായ പദം ഏതാണ്?",
+        options: ["പഠനം", "പാചകം", "നൃത്തം"],
+        answer: 0
+      },
+      {
+        q: "‘കല’ എന്ന പദം ഏത് രംഗത്താണ് ഉപയോഗിക്കുന്നത്?",
+        options: ["വൈദ്യുതി", "സാഹിത്യം", "സയൻസ്"],
+        answer: 1
+      },
+      {
+        q: "‘മധുരം’ എന്നതിന്റെ വിരുദ്ധം?",
+        options: ["കട്ടു", "ഉപ്പു", "കയ്പ്"],
+        answer: 2
+      },
+      {
+        q: "മലയാള ഭാഷയിലെ ആദ്യ നോവൽ ഏതാണ്?",
+        options: ["കുന്ജൻ നമ്പ്യാരുടെ ഒട്ടൻതുള്ളൽ", "കുഞ്ഞിക്കൂനൻ", "കുന്ദലത"],
+        answer: 2
       }
     ];
 
@@ -77,19 +106,16 @@
 
     function renderQuestion(index) {
       const q = questions[index];
-
-      // Insert question + options + next button
       container.innerHTML = `
-        <div class="question-box active">
+        <div>
           <p><b>Q${index + 1}.</b> ${q.q}</p>
           ${q.options.map((opt, i) => `
             <button class="answer-btn" data-index="${i}">${opt}</button><br>`).join("")}
           <div id="feedback" class="feedback"></div>
-          <button id="nextBtn" style="display:none">➡️ Next</button>
+          <button id="nextBtn" style="display:none">➡️ അടുത്തത്</button>
         </div>
       `;
 
-      // Add event listeners for answer buttons
       document.querySelectorAll(".answer-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           const selected = parseInt(btn.getAttribute("data-index"));
@@ -97,27 +123,24 @@
         });
       });
 
-      // Add event listener for Next button
       document.getElementById("nextBtn").addEventListener("click", nextQuestion);
     }
 
     function checkAnswer(selected) {
       const correct = questions[current].answer;
       const feedback = document.getElementById("feedback");
+      const correctText = questions[current].options[correct];
 
       if (selected === correct) {
-        feedback.innerHTML = "✅ ശരിയാണ്!";
+        feedback.innerHTML = `✅ ശരിയാണ്! <br>✔️ ശരിയായ ഉത്തരം: <b>${correctText}</b>`;
         feedback.className = "feedback correct";
         score++;
       } else {
-        feedback.innerHTML = `❌ തെറ്റാണ്. ശരിയുള്ള ഉത്തരം: ${questions[current].options[correct]}`;
+        feedback.innerHTML = `❌ തെറ്റാണ്. <br>✔️ ശരിയായ ഉത്തരം: <b>${correctText}</b>`;
         feedback.className = "feedback wrong";
       }
 
-      // Disable answer buttons
       document.querySelectorAll(".answer-btn").forEach(btn => btn.disabled = true);
-
-      // Show "Next" button
       document.getElementById("nextBtn").style.display = "inline-block";
     }
 
@@ -134,7 +157,7 @@
       container.style.display = "none";
       const final = document.getElementById("final-score");
       final.style.display = "block";
-      final.innerHTML = `✅ നിങ്ങൾ നേടിയത് <b>${score}/${questions.length}</b> ആണ്!`;
+      final.innerHTML = `✅ നിങ്ങൾ നേടിയത് <b>${score}/${questions.length}</b> ആണ്! 👏`;
     }
 
     // Start the quiz
