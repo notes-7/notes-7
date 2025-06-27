@@ -28,12 +28,26 @@
       font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
+      margin: 10px;
     }
     #result {
       font-weight: bold;
       font-size: 18px;
       margin-top: 20px;
       text-align: center;
+    }
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      text-align: center;
+      z-index: 1000;
     }
   </style>
 </head>
@@ -51,27 +65,4 @@
     <p>2. ‘അനുപ്രാസം’ എന്നതെന്താണ്?</p>
     <label><input type="radio" name="q2" value="a"> ഓർമ്മശക്തി</label><br>
     <label><input type="radio" name="q2" value="b"> ഒരേ ശബ്ദം ആവർത്തിക്കുന്നത്</label><br>
-    <label><input type="radio" name="q2" value="c"> കവി</label>
-  </div>
-
-  <div class="question">
-    <p>3. ‘പ്രശാന്തം’ എന്ന പദത്തിന് വിരുദ്ധപദം ഏത്?</p>
-    <label><input type="radio" name="q3" value="a"> അമൃതം</label><br>
-    <label><input type="radio" name="q3" value="b"> അശാന്തം</label><br>
-    <label><input type="radio" name="q3" value="c"> വിനയം</label>
-  </div>
-
-  <div class="question">
-    <p>4. ‘നിന്റെ കണ്ണുകൾ താരകകൾ പോലെ ആണ്’ – ഈ വാക്യത്തിൽ എന്ത് ശൈലി ഉപയോഗിച്ചിട്ടുണ്ട്?</p>
-    <label><input type="radio" name="q4" value="a"> ഉപമ</label><br>
-    <label><input type="radio" name="q4" value="b"> പര്യായം</label><br>
-    <label><input type="radio" name="q4" value="c"> വിവക്ഷ</label>
-  </div>
-
-  <div class="question">
-    <p>5. താഴെ കൊടുത്തവയിൽ ‘കവിത’യെ സൂചിപ്പിക്കുന്ന പദം ഏതാണ്?</p>
-    <label><input type="radio"
-
-  </script>
-</body>
-</html>
+    <label><input type="
