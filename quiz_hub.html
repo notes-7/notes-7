@@ -74,13 +74,32 @@
     <p id="thanks"></p>
   </div>
 
-  <script>
-    function submitRating(e) {
-      e.preventDefault();
-      const rating = document.getElementById('rating').value;
-      document.getElementById('thanks').innerText = "✅ Thank you! Your rating has been recorded.";
-    }
-  </script>
+<script>
+  function submitRating(e) {
+    e.preventDefault();
+    const rating = document.getElementById('rating').value;
+
+    const popup = document.createElement('div');
+    popup.style.position = 'fixed';
+    popup.style.top = '50%';
+    popup.style.left = '50%';
+    popup.style.transform = 'translate(-50%, -50%)';
+    popup.style.background = '#fff';
+    popup.style.border = '1px solid #ccc';
+    popup.style.padding = '20px';
+    popup.style.borderRadius = '10px';
+    popup.style.boxShadow = '0 0 10px rgba(0,0,0,0.2)';
+    popup.style.textAlign = 'center';
+
+    popup.innerHTML = `
+      <h3>✅ Thank you for your feedback!</h3>
+      <p>What would you like to do next?</p>
+      <button onclick="location.reload()">🔁 Retry Quiz</button>
+      <button onclick="location.href='quiz_hub.html'">🧭 Go to Quiz Hub</button>
+    `;
+
+    document.body.appendChild(popup);
+  }
+</script>
 </body>
 </html>
-
