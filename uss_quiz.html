@@ -81,7 +81,7 @@
         <div class="question-box active">
           <p><b>Q${index + 1}.</b> ${q.q}</p>
           ${q.options.map((opt, i) => `
-            <button onclick="selectAnswer(${i})">${opt}</button><br>`).join("")}
+            <button class="answer-btn" onclick="selectAnswer(${i})">${opt}</button><br>`).join("")}
           <div id="feedback" class="feedback"></div>
           <button id="nextBtn" style="display:none" onclick="nextQuestion()">➡️ Next</button>
         </div>
@@ -102,8 +102,9 @@
         feedback.className = "feedback wrong";
       }
 
-      // Disable all buttons after selection
-      Array.from(container.querySelectorAll("button")).forEach(btn => btn.disabled = true);
+      // ✅ Only disable answer buttons, not the "Next" button
+      Array.from(container.querySelectorAll(".answer-btn")).forEach(btn => btn.disabled = true);
+
       nextBtn.style.display = "inline-block";
     }
 
