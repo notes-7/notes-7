@@ -10,7 +10,43 @@
       margin: 30px auto;
       background: #f9f9f9;
       padding: 20px;
+      border-radius: 12px;<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="UTF-8">
+  <title>USS Malayalam Quiz</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 30px auto;
+      background: #f9f9f9;
+      padding: 20px;
       border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #1e90ff;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    button {
+      background: #1e90ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    #result {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 20px;
+
       box-shadow: 0 0 12px rgba(0,0,0,0.1);
     }
     h1 {
@@ -36,18 +72,32 @@
       margin-top: 20px;
       text-align: center;
     }
-    .popup {
+
+    /* Popup styles */
+    .overlay {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* dark background */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .popup {
       background: #fff;
-      border: 1px solid #ccc;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
       text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
       z-index: 1000;
+    }
+
+    body.noscroll {
+      overflow: hidden;
     }
   </style>
 </head>
@@ -95,8 +145,7 @@
 
   <script>
     function checkAnswers() {
-      // Prevent multiple popups
-      if (document.getElementById("popup")) return;
+      if (document.getElementById("overlay")) return;
 
       let score = 0;
       if (document.querySelector('input[name="q1"]:checked')?.value === "a") score++;
@@ -107,10 +156,16 @@
 
       document.getElementById("result").innerHTML = `✅ നിങ്ങൾ നേടിയത് ${score}/5 ആണ്`;
 
-      // Create popup
+      // Disable scroll
+      document.body.classList.add('noscroll');
+
+      // Create overlay and popup
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      overlay.id = 'overlay';
+
       const popup = document.createElement('div');
       popup.className = 'popup';
-      popup.id = 'popup';
       popup.innerHTML = `
         <h3>✅ Quiz Completed!</h3>
         <p>നിങ്ങളുടെ സ്കോർ: ${score}/5</p>
@@ -118,7 +173,9 @@
         <button onclick="location.reload()">🔁 വീണ്ടും ശ്രമിക്കുക</button>
         <button onclick="window.location.href='quiz_hub.html'">🧭 Quiz Hub ലേക്ക് പോവുക</button>
       `;
-      document.body.appendChild(popup);
+
+      overlay.appendChild(popup);
+      document.body.appendChild(overlay);
     }
   </script>
 </body>
